@@ -1,6 +1,5 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH=$HOME/.local/bin:$PATH
-export XDG_CONFIG_HOME=$HOME/.config
 export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
 
 ### Added by Zinit's installer
@@ -17,7 +16,7 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk
 
-if [ $(ps ax | grep "[s]sh-agent" | wc -l) -eq 0 ] ; then
+if [ -z "$SSH_AUTH_SOCK" ] ; then
     eval "$(ssh-agent -s)" > /dev/null
     if [ "$(ssh-add -l)" = "The agent has no identities." ]; then
         echo "Adding ssh identities"
