@@ -17,6 +17,16 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk
 
+if [ $(ps ax | grep "[s]sh-agent" | wc -l) -eq 0 ] ; then
+    eval "$(ssh-agent -s)" > /dev/null
+    if [ "$(ssh-add -l)" = "The agent has no identities." ]; then
+        echo "Adding ssh identities"
+        ssh-add
+        # Auto-add ssh keys to your ssh agent
+        # Example: ssh-add ~/.ssh/id_rsa > /dev/null 2>&1
+    fi
+fi
+
 zinit ice depth=1
 
 zinit light zsh-users/zsh-syntax-highlighting
@@ -59,4 +69,4 @@ source <(capri --zsh-completions 2>/dev/null)
 source <(isc --zsh-completions 2>/dev/null)
 source <(acc --zsh-completions 2>/dev/null)
 
-eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh/half-life.yaml)"
+eval "$(oh-my-posh init zsh --config ~/.config/zsh/half-life.yaml)"
